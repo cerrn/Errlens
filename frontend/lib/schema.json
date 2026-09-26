@@ -1,0 +1,674 @@
+{
+  "$defs": {
+    "Analysis": {
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "root_cause": {
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "confidence_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "llm_confidence": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/ConfidenceSignal"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "summary",
+        "root_cause",
+        "evidence",
+        "confidence",
+        "confidence_reasons",
+        "llm_confidence",
+        "signals"
+      ],
+      "title": "Analysis",
+      "type": "object"
+    },
+    "AnalysisResult": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/$defs/ErrorInfo"
+        },
+        "causes": {
+          "description": "Earlier exceptions in a chained traceback",
+          "items": {
+            "$ref": "#/$defs/ErrorInfo"
+          },
+          "type": "array"
+        },
+        "frames": {
+          "items": {
+            "$ref": "#/$defs/Frame"
+          },
+          "type": "array"
+        },
+        "contexts": {
+          "items": {
+            "$ref": "#/$defs/CodeContext"
+          },
+          "type": "array"
+        },
+        "suspect_commit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SuspectCommit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "analysis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Analysis"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "fix": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fix"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      },
+      "required": [
+        "id",
+        "created_at",
+        "error",
+        "causes",
+        "frames",
+        "contexts",
+        "suspect_commit",
+        "analysis",
+        "fix",
+        "meta"
+      ],
+      "title": "AnalysisResult",
+      "type": "object"
+    },
+    "AnalyzeRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "trace": {
+          "description": "Raw stack trace",
+          "maxLength": 100000,
+          "minLength": 1,
+          "type": "string"
+        },
+        "repo_url": {
+          "description": "GitHub repository URL",
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        },
+        "ref": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Branch, tag or commit SHA"
+        }
+      },
+      "required": [
+        "trace",
+        "repo_url"
+      ],
+      "title": "AnalyzeRequest",
+      "type": "object"
+    },
+    "CodeContext": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "start_line": {
+          "type": "integer"
+        },
+        "end_line": {
+          "type": "integer"
+        },
+        "highlight_line": {
+          "type": "integer"
+        },
+        "snippet": {
+          "type": "string"
+        },
+        "frame_index": {
+          "default": 0,
+          "description": "Index of the related frame in the frames list",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "start_line",
+        "end_line",
+        "highlight_line",
+        "snippet",
+        "frame_index"
+      ],
+      "title": "CodeContext",
+      "type": "object"
+    },
+    "ConfidenceSignal": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "score",
+        "reason"
+      ],
+      "title": "ConfidenceSignal",
+      "type": "object"
+    },
+    "ErrorInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "language": {
+          "enum": [
+            "python",
+            "javascript"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "message",
+        "language"
+      ],
+      "title": "ErrorInfo",
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "detail": {
+          "type": "string"
+        },
+        "code": {
+          "default": "error",
+          "type": "string"
+        }
+      },
+      "required": [
+        "detail",
+        "code"
+      ],
+      "title": "ErrorResponse",
+      "type": "object"
+    },
+    "Fix": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string"
+        },
+        "start_line": {
+          "type": "integer"
+        },
+        "end_line": {
+          "type": "integer"
+        },
+        "new_code": {
+          "type": "string"
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "diff": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "file",
+        "start_line",
+        "end_line",
+        "new_code",
+        "explanation",
+        "diff"
+      ],
+      "title": "Fix",
+      "type": "object"
+    },
+    "Frame": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "description": "Repository path if resolved, otherwise the raw path",
+          "type": "string"
+        },
+        "raw_file": {
+          "description": "Raw path as it appears in the trace",
+          "type": "string"
+        },
+        "line": {
+          "type": "integer"
+        },
+        "column": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "function": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Source line shown under the frame in the trace"
+        },
+        "is_user_code": {
+          "type": "boolean"
+        },
+        "resolved": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "file",
+        "raw_file",
+        "line",
+        "column",
+        "function",
+        "source",
+        "is_user_code",
+        "resolved"
+      ],
+      "title": "Frame",
+      "type": "object"
+    },
+    "HealthResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "ok",
+          "default": "ok",
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "github_token": {
+          "type": "boolean"
+        },
+        "llm_configured": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status",
+        "version",
+        "github_token",
+        "llm_configured"
+      ],
+      "title": "HealthResponse",
+      "type": "object"
+    },
+    "HistoryItem": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "repo": {
+          "type": "string"
+        },
+        "error_type": {
+          "type": "string"
+        },
+        "error_message": {
+          "default": "",
+          "type": "string"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "created_at",
+        "repo",
+        "error_type",
+        "error_message",
+        "confidence"
+      ],
+      "title": "HistoryItem",
+      "type": "object"
+    },
+    "HistoryList": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/HistoryItem"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "title": "HistoryList",
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "properties": {
+        "repo": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "cached": {
+          "default": false,
+          "type": "boolean"
+        },
+        "duration_ms": {
+          "default": 0,
+          "type": "integer"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "fix_unavailable_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "repo",
+        "ref",
+        "sha",
+        "cached",
+        "duration_ms",
+        "model",
+        "warnings",
+        "fix_unavailable_reason"
+      ],
+      "title": "Meta",
+      "type": "object"
+    },
+    "StepEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "step": {
+          "enum": [
+            "parse",
+            "resolve_paths",
+            "fetch_context",
+            "blame",
+            "analyze",
+            "build_fix",
+            "done"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "done",
+            "skipped",
+            "error"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "data": {
+          "additionalProperties": true,
+          "type": "object"
+        }
+      },
+      "required": [
+        "step",
+        "status",
+        "label",
+        "data"
+      ],
+      "title": "StepEvent",
+      "type": "object"
+    },
+    "SuspectCommit": {
+      "additionalProperties": false,
+      "properties": {
+        "sha": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "patch": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "File the patch belongs to"
+        },
+        "selection": {
+          "default": "blame",
+          "enum": [
+            "blame",
+            "related"
+          ],
+          "type": "string"
+        },
+        "selection_reason": {
+          "default": "",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sha",
+        "message",
+        "author",
+        "date",
+        "url",
+        "patch",
+        "file",
+        "selection",
+        "selection_reason"
+      ],
+      "title": "SuspectCommit",
+      "type": "object"
+    }
+  },
+  "title": "ErrLensContract",
+  "type": "object",
+  "properties": {
+    "AnalyzeRequest": {
+      "$ref": "#/$defs/AnalyzeRequest"
+    },
+    "AnalysisResult": {
+      "$ref": "#/$defs/AnalysisResult"
+    },
+    "StepEvent": {
+      "$ref": "#/$defs/StepEvent"
+    },
+    "HistoryItem": {
+      "$ref": "#/$defs/HistoryItem"
+    },
+    "HistoryList": {
+      "$ref": "#/$defs/HistoryList"
+    },
+    "ErrorResponse": {
+      "$ref": "#/$defs/ErrorResponse"
+    },
+    "HealthResponse": {
+      "$ref": "#/$defs/HealthResponse"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/alex/errlens-demo/shop/__main__.py", line 25, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/alex/errlens-demo/shop/__main__.py", line 14, in main
+    profile = get_profile(int(argv[1]) if len(argv) > 1 else 1)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alex/errlens-demo/shop/profile.py", line 24, in get_profile
+    "email": mask_email(user_data["email"]),
+                        ~~~~~~~~~^^^^^^^^^
+KeyError: 'email'

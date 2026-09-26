@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\dev\projects\inventory\app\main.py", line 41, in <module>
+    report = summarize(items)
+  File "C:\Users\dev\projects\inventory\app\report.py", line 17, in summarize
+    total += item["qty"] * item["price"]
+  File "C:\Users\dev\AppData\Local\Programs\Python\Python312\Lib\decimal.py", line 5, in __mul__
+    pass
+TypeError: can't multiply sequence by non-int of type 'float'

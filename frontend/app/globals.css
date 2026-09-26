@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-2: #f1f1ee;
+  --border: #e3e2de;
+  --text: #1c1c1a;
+  --muted: #6b6a65;
+  --accent: #c2410c;
+  --accent-soft: #fff1e8;
+  --ok: #15803d;
+  --ok-soft: #e9f7ee;
+  --warn: #b45309;
+  --warn-soft: #fdf5e6;
+  --bad: #b91c1c;
+  --bad-soft: #fdecec;
+  --hl: #fff4d6;
+  --code-bg: #fbfbfa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121211;
+    --surface: #1a1a19;
+    --surface-2: #222220;
+    --border: #2f2f2c;
+    --text: #ecebe7;
+    --muted: #9b9a94;
+    --accent: #fb923c;
+    --accent-soft: #2b1c12;
+    --ok: #4ade80;
+    --ok-soft: #13261a;
+    --warn: #fbbf24;
+    --warn-soft: #2a2211;
+    --bad: #f87171;
+    --bad-soft: #2c1515;
+    --hl: #3a3218;
+    --code-bg: #161615;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-hl: var(--hl);
+  --color-code: var(--code-bg);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* ---------------------------------------------------------------- code blocks (Shiki) */
+
+.code-block pre {
+  margin: 0;
+  padding: 0.5rem 0;
+  overflow-x: auto;
+  background: transparent !important;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.code-block code {
+  counter-reset: line var(--start, 0);
+  display: block;
+  min-width: max-content;
+}
+
+.code-block .line {
+  display: inline-block;
+  width: 100%;
+  padding-right: 1rem;
+}
+
+.code-block .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 3.25rem;
+  padding-right: 1rem;
+  text-align: right;
+  color: var(--muted);
+  opacity: 0.6;
+  user-select: none;
+}
+
+.code-block .line.highlighted {
+  background: var(--hl);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.code-block .line.highlighted::before {
+  color: var(--accent);
+  opacity: 1;
+  font-weight: 600;
+}
+
+.code-block.no-numbers .line::before {
+  display: none;
+}
+
+.code-block.no-numbers .line {
+  padding-left: 1rem;
+}
+
+.code-block .line.diff-add {
+  background: color-mix(in srgb, var(--ok) 12%, transparent);
+}
+
+.code-block .line.diff-del {
+  background: color-mix(in srgb, var(--bad) 12%, transparent);
+}
+
+.code-block .line.diff-hunk {
+  color: var(--muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+  }
+}
+
+/* ---------------------------------------------------------------- diff2html */
+
+.diff-view .d2h-wrapper {
+  font-size: 12.5px;
+}
+
+.diff-view .d2h-file-wrapper {
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+}
+
+.diff-view .d2h-file-header {
+  display: none;
+}
+
+.diff-view .d2h-code-linenumber,
+.diff-view .d2h-code-side-linenumber {
+  position: static;
+}
+
+.diff-view .d2h-code-line,
+.diff-view .d2h-code-side-line {
+  padding-left: 0.5rem;
+}
+
+.diff-view .d2h-diff-table {
+  font-family: var(--font-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  .diff-view .d2h-wrapper {
+    --d2h-bg-color: var(--code-bg);
+  }
+}
+
+/* ---------------------------------------------------------------- animasyon */
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.2s ease-in-out infinite;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}

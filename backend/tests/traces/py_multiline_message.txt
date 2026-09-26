@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/api/routes/users.py", line 33, in create_user
+    user = UserIn(**payload)
+  File "/workspace/.venv/lib/python3.11/site-packages/pydantic/main.py", line 212, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for UserIn
+email
+  Field required [type=missing, input_value={'name': 'Alice'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.7/v/missing

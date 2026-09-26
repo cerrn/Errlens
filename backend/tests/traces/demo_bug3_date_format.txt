@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/alex/errlens-demo/shop/__main__.py", line 25, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/alex/errlens-demo/shop/__main__.py", line 17, in main
+    print(build_report())
+          ^^^^^^^^^^^^^^
+  File "/home/alex/errlens-demo/shop/reports.py", line 24, in build_report
+    for day, total in daily_totals(orders).items():
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "/home/alex/errlens-demo/shop/reports.py", line 16, in daily_totals
+    day = parse_order_date(order["created_at"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alex/errlens-demo/shop/reports.py", line 10, in parse_order_date
+    return datetime.strptime(value, "%Y-%m-%d").date()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/_strptime.py", line 567, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/_strptime.py", line 352, in _strptime
+    raise ValueError("unconverted data remains: %s" %
+ValueError: unconverted data remains: T14:31:05

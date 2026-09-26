@@ -1,0 +1,11 @@
+file:///Users/sam/code/notifier/src/jobs/digest.mjs:27
+  const recipients = team.members.filter((m) => m.subscribed);
+                                  ^
+
+TypeError: Cannot read properties of undefined (reading 'filter')
+    at buildDigest (file:///Users/sam/code/notifier/src/jobs/digest.mjs:27:35)
+    at async Promise.all (index 2)
+    at async runJobs (file:///Users/sam/code/notifier/src/jobs/index.mjs:14:5)
+    at async file:///Users/sam/code/notifier/src/main.mjs:8:1
+
+Node.js v20.11.1

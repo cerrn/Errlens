@@ -1,0 +1,31 @@
+# Run `fly launch --no-deploy` and pick an app name, then:
+#   fly volumes create errlens_data --size 1
+#   fly secrets set GITHUB_TOKEN=... GEMINI_API_KEY=... CORS_ORIGINS=https://<frontend>.vercel.app
+#   fly deploy
+app = "errlens-api"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  ERRLENS_DB_PATH = "/data/errlens.db"
+  PORT = "8000"
+
+[mounts]
+  source = "errlens_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    path = "/health"
+    timeout = "5s"

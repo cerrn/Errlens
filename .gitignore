@@ -1,0 +1,32 @@
+# Secrets and local configuration
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# Runtime data
+*.db
+*.db-journal
+backend/live_test_report.json
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local scratch
+_to_delete/

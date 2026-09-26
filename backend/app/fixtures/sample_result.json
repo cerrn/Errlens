@@ -1,0 +1,198 @@
+{
+  "id": "an_demo01",
+  "created_at": "2026-09-26T18:42:49+00:00",
+  "error": {
+    "type": "ValueError",
+    "message": "unconverted data remains: T14:31:05",
+    "language": "python"
+  },
+  "causes": [],
+  "frames": [
+    {
+      "file": "/usr/lib/python3.11/_strptime.py",
+      "raw_file": "/usr/lib/python3.11/_strptime.py",
+      "line": 352,
+      "column": null,
+      "function": "_strptime",
+      "source": "raise ValueError(\"unconverted data remains: %s\" %",
+      "is_user_code": false,
+      "resolved": false
+    },
+    {
+      "file": "/usr/lib/python3.11/_strptime.py",
+      "raw_file": "/usr/lib/python3.11/_strptime.py",
+      "line": 567,
+      "column": null,
+      "function": "_strptime_datetime",
+      "source": "tt, fraction, gmtoff_fraction = _strptime(data_string, format)",
+      "is_user_code": false,
+      "resolved": false
+    },
+    {
+      "file": "shop/reports.py",
+      "raw_file": "/home/alex/errlens-demo/shop/reports.py",
+      "line": 10,
+      "column": null,
+      "function": "parse_order_date",
+      "source": "return datetime.strptime(value, \"%Y-%m-%d\").date()",
+      "is_user_code": true,
+      "resolved": true
+    },
+    {
+      "file": "shop/reports.py",
+      "raw_file": "/home/alex/errlens-demo/shop/reports.py",
+      "line": 16,
+      "column": null,
+      "function": "daily_totals",
+      "source": "day = parse_order_date(order[\"created_at\"])",
+      "is_user_code": true,
+      "resolved": true
+    },
+    {
+      "file": "shop/reports.py",
+      "raw_file": "/home/alex/errlens-demo/shop/reports.py",
+      "line": 24,
+      "column": null,
+      "function": "build_report",
+      "source": "for day, total in daily_totals(orders).items():",
+      "is_user_code": true,
+      "resolved": true
+    },
+    {
+      "file": "shop/__main__.py",
+      "raw_file": "/home/alex/errlens-demo/shop/__main__.py",
+      "line": 17,
+      "column": null,
+      "function": "main",
+      "source": "print(build_report())",
+      "is_user_code": true,
+      "resolved": true
+    },
+    {
+      "file": "shop/__main__.py",
+      "raw_file": "/home/alex/errlens-demo/shop/__main__.py",
+      "line": 25,
+      "column": null,
+      "function": "<module>",
+      "source": "sys.exit(main(sys.argv[1:]))",
+      "is_user_code": true,
+      "resolved": true
+    },
+    {
+      "file": "<frozen runpy>",
+      "raw_file": "<frozen runpy>",
+      "line": 88,
+      "column": null,
+      "function": "_run_code",
+      "source": null,
+      "is_user_code": false,
+      "resolved": false
+    },
+    {
+      "file": "<frozen runpy>",
+      "raw_file": "<frozen runpy>",
+      "line": 198,
+      "column": null,
+      "function": "_run_module_as_main",
+      "source": null,
+      "is_user_code": false,
+      "resolved": false
+    }
+  ],
+  "contexts": [
+    {
+      "file": "shop/reports.py",
+      "start_line": 1,
+      "end_line": 26,
+      "highlight_line": 10,
+      "snippet": "\"\"\"Daily sales report.\"\"\"\nfrom collections import defaultdict\nfrom datetime import date, datetime\n\nfrom shop.api import fetch_orders\n\n\ndef parse_order_date(value: str) -> date:\n    \"\"\"Parses the date string coming from the API into a date.\"\"\"\n    return datetime.strptime(value, \"%Y-%m-%d\").date()\n\n\ndef daily_totals(orders):\n    totals = defaultdict(float)\n    for order in orders:\n        day = parse_order_date(order[\"created_at\"])\n        totals[day] += order[\"total\"]\n    return dict(sorted(totals.items()))\n\n\ndef build_report():\n    orders = fetch_orders()\n    lines = [\"Daily sales report\", \"-\" * 24]\n    for day, total in daily_totals(orders).items():\n        lines.append(f\"{day.isoformat()}  {total:>10.2f} USD\")\n    return \"\\n\".join(lines)",
+      "frame_index": 2
+    },
+    {
+      "file": "shop/reports.py",
+      "start_line": 1,
+      "end_line": 26,
+      "highlight_line": 16,
+      "snippet": "\"\"\"Daily sales report.\"\"\"\nfrom collections import defaultdict\nfrom datetime import date, datetime\n\nfrom shop.api import fetch_orders\n\n\ndef parse_order_date(value: str) -> date:\n    \"\"\"Parses the date string coming from the API into a date.\"\"\"\n    return datetime.strptime(value, \"%Y-%m-%d\").date()\n\n\ndef daily_totals(orders):\n    totals = defaultdict(float)\n    for order in orders:\n        day = parse_order_date(order[\"created_at\"])\n        totals[day] += order[\"total\"]\n    return dict(sorted(totals.items()))\n\n\ndef build_report():\n    orders = fetch_orders()\n    lines = [\"Daily sales report\", \"-\" * 24]\n    for day, total in daily_totals(orders).items():\n        lines.append(f\"{day.isoformat()}  {total:>10.2f} USD\")\n    return \"\\n\".join(lines)",
+      "frame_index": 3
+    },
+    {
+      "file": "shop/reports.py",
+      "start_line": 4,
+      "end_line": 26,
+      "highlight_line": 24,
+      "snippet": "\nfrom shop.api import fetch_orders\n\n\ndef parse_order_date(value: str) -> date:\n    \"\"\"Parses the date string coming from the API into a date.\"\"\"\n    return datetime.strptime(value, \"%Y-%m-%d\").date()\n\n\ndef daily_totals(orders):\n    totals = defaultdict(float)\n    for order in orders:\n        day = parse_order_date(order[\"created_at\"])\n        totals[day] += order[\"total\"]\n    return dict(sorted(totals.items()))\n\n\ndef build_report():\n    orders = fetch_orders()\n    lines = [\"Daily sales report\", \"-\" * 24]\n    for day, total in daily_totals(orders).items():\n        lines.append(f\"{day.isoformat()}  {total:>10.2f} USD\")\n    return \"\\n\".join(lines)",
+      "frame_index": 4
+    }
+  ],
+  "suspect_commit": {
+    "sha": "329cbcff1628378900a1d701eed5f7e85fe13217",
+    "message": "feat(api): use ISO 8601 timestamps in API responses\n\nMobile clients need the time component as well, switch order dates to\nISO 8601 (e.g. 2026-09-20T14:31:05).",
+    "author": "Alex Morgan",
+    "date": "2026-09-25T17:12:00+03:00",
+    "url": "",
+    "patch": "--- a/shop/dates.py\n+++ b/shop/dates.py\n@@ -4,4 +4,4 @@ from datetime import datetime\n \n def format_order_date(dt: datetime) -> str:\n     \"\"\"Formats an order date for an API response.\"\"\"\n-    return dt.strftime(\"%Y-%m-%d\")\n+    return dt.isoformat(timespec=\"seconds\")",
+    "file": "shop/dates.py",
+    "selection": "related",
+    "selection_reason": "The commit that last touched the error line (cfc8131) is older; a later commit, 329cbcf, changed expressions related to the error in shop/dates.py: '%Y-%m-%d', datetime, isoformat"
+  },
+  "analysis": {
+    "summary": "The application crashes because the date parsing function expects a date-only string, but the API now provides full ISO 8601 timestamps with time components. This mismatch causes a ValueError when `strptime` encounters unexpected characters.",
+    "root_cause": "The `parse_order_date` function in `shop/reports.py` uses the format string `\"%Y-%m-%d\"` to parse order creation dates. However, commit 329cbcf changed the API to return `created_at` fields in ISO 8601 format (e.g., `\"2026-09-20T14:31:05\"`), which includes a time component. The `strptime` function fails because the time part `\"T14:31:05\"` remains unconverted.",
+    "evidence": [
+      "shop/reports.py:10 The `ValueError: unconverted data remains: T14:31:05` indicates that `datetime.strptime` with format `\"%Y-%m-%d\"` failed to parse the input string because of the unexpected `T` and time components.",
+      "commit 329cbcf: The commit message explicitly states: \"switch order dates to ISO 8601 (e.g. 2026-09-20T14:31:05)\".",
+      "commit 329cbcf: The diff shows `shop/dates.py` changed `dt.strftime(\"%Y-%m-%d\")` to `dt.isoformat(timespec=\"seconds\")`, confirming the new output format from the API.",
+      "shop/reports.py:16 The `daily_totals` function passes `order[\"created_at\"]` (which comes from the API) to `parse_order_date`."
+    ],
+    "confidence": 0.97,
+    "confidence_reasons": [
+      "The model rated its own confidence at 100%",
+      "Raised inside a library; the calling user code was found (shop/reports.py:10)",
+      "Related code changed 1 day ago (329cbcf)",
+      "The line has a call/operation that can raise ValueError",
+      "The proposed fix passed validation"
+    ],
+    "llm_confidence": 1.0,
+    "signals": [
+      {
+        "name": "user_frame",
+        "score": 0.75,
+        "reason": "Raised inside a library; the calling user code was found (shop/reports.py:10)"
+      },
+      {
+        "name": "recent_change",
+        "score": 1.0,
+        "reason": "Related code changed 1 day ago (329cbcf)"
+      },
+      {
+        "name": "type_match",
+        "score": 1.0,
+        "reason": "The line has a call/operation that can raise ValueError"
+      },
+      {
+        "name": "fix_valid",
+        "score": 1.0,
+        "reason": "The proposed fix passed validation"
+      }
+    ]
+  },
+  "fix": {
+    "file": "shop/reports.py",
+    "start_line": 10,
+    "end_line": 10,
+    "new_code": "    return datetime.strptime(value, \"%Y-%m-%dT%H:%M:%S\").date()",
+    "explanation": "The API now returns `created_at` in ISO 8601 format (e.g., `\"YYYY-MM-DDTHH:MM:SS\"`). The `parse_order_date` function needs to be updated to use the correct format string `\"%Y-%m-%dT%H:%M:%S\"` for `datetime.strptime` to correctly parse the full timestamp. We still call `.date()` to extract only the date part as required by the function's return type.",
+    "diff": "--- a/shop/reports.py\n+++ b/shop/reports.py\n@@ -7,7 +7,7 @@\n \n def parse_order_date(value: str) -> date:\n     \"\"\"Parses the date string coming from the API into a date.\"\"\"\n-    return datetime.strptime(value, \"%Y-%m-%d\").date()\n+    return datetime.strptime(value, \"%Y-%m-%dT%H:%M:%S\").date()\n \n \n def daily_totals(orders):\n"
+  },
+  "meta": {
+    "repo": "local/errlens-demo",
+    "ref": "main",
+    "sha": "329cbcff1628378900a1d701eed5f7e85fe13217",
+    "cached": false,
+    "duration_ms": 9200,
+    "model": "gemini-2.5-flash",
+    "warnings": [],
+    "fix_unavailable_reason": null
+  }
+}

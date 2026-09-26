@@ -1,0 +1,8 @@
+ReferenceError: currency is not defined
+    at formatPrice (/var/www/storefront/lib/format.js:12:38)
+    at /var/www/storefront/routes/products.js:45:24
+    at Array.map (<anonymous>)
+    at listProducts (/var/www/storefront/routes/products.js:44:30)
+    at Layer.handle [as handle_request] (/var/www/storefront/node_modules/express/lib/router/layer.js:95:5)
+    at next (/var/www/storefront/node_modules/express/lib/router/route.js:149:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

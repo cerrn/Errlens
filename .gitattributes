@@ -1,0 +1,10 @@
+# Normalize line endings in the repository
+* text=auto eol=lf
+# Windows batch files need CRLF
+*.bat text eol=crlf
+# Binary files
+*.png binary
+*.jpg binary
+*.ico binary
+# This test fixture must keep its Windows (CRLF) line endings
+backend/tests/traces/py_windows_paths.txt -text

@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/app/config/loader.py", line 22, in load_config
+    with open(path, encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/app/config/settings.prod.toml'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/app/main.py", line 9, in <module>
+    settings = load_config(os.environ["APP_ENV"])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/config/loader.py", line 25, in load_config
+    raise ConfigError(f"Config file not found: {path}") from exc
+config.errors.ConfigError: Config file not found: /app/config/settings.prod.toml
